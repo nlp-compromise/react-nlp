@@ -1,2 +1,4 @@
 # react-nlp
-a wip keypress nlp component for react
+a wip inline-editor for nlp-based display and interactions in react
+
+[demo](https://rawgit.com/nlp-compromise/react-nlp/master/demo/index.html)
