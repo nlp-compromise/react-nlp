@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "60a81182b43ae7451ff2"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f73eab807744c3883eb3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -584,6 +584,10 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _NlpTextArea = __webpack_require__(159);
+	
+	var _NlpTextArea2 = _interopRequireDefault(_NlpTextArea);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -600,7 +604,11 @@
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Main).call(this));
 	
-	    _this.css = {};
+	    _this.css = {
+	      container: {
+	        padding: 100
+	      }
+	    };
 	    _this.state = {};
 	    return _this;
 	  }
@@ -611,7 +619,11 @@
 	      var state = this.state;
 	      var css = this.css;
 	
-	      return;
+	      return _react2.default.createElement(
+	        'div',
+	        { style: css.container },
+	        _react2.default.createElement(_NlpTextArea2.default, { text: 'this is some text' })
+	      );
 	    }
 	  }]);
 	
@@ -20228,6 +20240,158 @@
 	
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NlpTextArea = function (_React$Component) {
+	  _inherits(NlpTextArea, _React$Component);
+	
+	  function NlpTextArea(props) {
+	    _classCallCheck(this, NlpTextArea);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(NlpTextArea).call(this, props));
+	
+	    _this.css = {
+	      container: {
+	        'position': 'relative'
+	      },
+	      shared_text: {
+	        position: 'absolute',
+	        top: 0,
+	        left: 0,
+	        width: '100%',
+	        fontFamily: 'Helvetica',
+	        fontSize: 20,
+	        padding: '10px 15px 0px 15px',
+	        margin: 0,
+	        color: 'grey'
+	      }
+	    };
+	    _this.state = {
+	      text: props.text,
+	      trailing: '',
+	      parsed: nlp_compromise.text(props.text)
+	    };
+	    _this.overlay = _this.overlay.bind(_this);
+	    _this.onChange = _this.onChange.bind(_this);
+	    _this.hiddenText = _this.hiddenText.bind(_this);
+	    return _this;
+	  }
+	
+	  _createClass(NlpTextArea, [{
+	    key: 'onChange',
+	    value: function onChange() {
+	      var state = this.state;
+	
+	      var el = this.refs.textarea;
+	      if (el) {
+	        state.text = el.value;
+	        state.parsed = nlp_compromise.text(state.text);
+	      }
+	      state.trailing = state.text.match(/\s+$/) || '';
+	      this.setState(state);
+	    }
+	  }, {
+	    key: 'overlay',
+	    value: function overlay() {
+	      var state = this.state;
+	      var css = this.css;
+	
+	      var spans = [];
+	      state.parsed.terms().forEach(function (t, i) {
+	        var term_css = {
+	          color: 'white',
+	          position: 'relative',
+	          top: 2,
+	          left: 1
+	        };
+	        if (t.pos['Verb']) {
+	          term_css.backgroundColor = 'steelblue';
+	          term_css.opacity = 0.5;
+	          term_css.color = 'white';
+	        } else {
+	          // term_css.visibility = 'hidden';
+	        }
+	        spans.push(_react2.default.createElement(
+	          'span',
+	          { key: i, style: term_css },
+	          t.text
+	        ));
+	        spans.push(_react2.default.createElement(
+	          'span',
+	          { key: i + 'space' },
+	          ' '
+	        ));
+	      });
+	      return _react2.default.createElement(
+	        'div',
+	        { style: css.shared_text },
+	        spans
+	      );
+	    }
+	  }, {
+	    key: 'hiddenText',
+	    value: function hiddenText() {
+	      var state = this.state;
+	      var css = this.css;
+	
+	      var input_css = {
+	        backgroundColor: 'transparent',
+	        textIndent: -3
+	      };
+	      input_css = Object.assign(css.shared_text, input_css);
+	      //build the text-string from parsed terms
+	      var terms = state.parsed.terms();
+	      var text = terms.reduce(function (str, t) {
+	        str += t.text + ' ';
+	        return str;
+	      }, '').trim();
+	      text += state.trailing;
+	      console.log(text);
+	      return _react2.default.createElement('textarea', {
+	        style: input_css,
+	        ref: 'textarea',
+	        value: text,
+	        onChange: this.onChange
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var state = this.state;
+	      var css = this.css;
+	
+	      return _react2.default.createElement(
+	        'div',
+	        { style: css.container },
+	        this.overlay(),
+	        this.hiddenText()
+	      );
+	    }
+	  }]);
+	
+	  return NlpTextArea;
+	}(_react2.default.Component);
+	
+	module.exports = NlpTextArea;
 
 /***/ }
 /******/ ]);
