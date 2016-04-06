@@ -27,6 +27,7 @@
     "chai": "^3.3.0",
     "esformatter-asi": "^0.5.2",
     "eslint": "^1.9.0",
+    "eslint-plugin-react": "^4.2.3",
     "grunt": "^0.4.0",
     "grunt-babel": "^6.0.0",
     "grunt-browserify": "^4.0.0",
@@ -42,7 +43,7 @@
     "react-select": "^0.9.1"
   },
   "dependencies": {
-    "nlp_compromise":"latest"
+    "nlp_compromise": "latest"
   },
   "esformatter": {
     "plugins": [

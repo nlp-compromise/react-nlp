@@ -2,7 +2,7 @@ var path = require('path')
 var Webpack = require('webpack')
 
 module.exports = {
-  entry: './full_demo/main.jsx',
+  entry: './demo/main.jsx',
   module: {
     loaders: [
       {
