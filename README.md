@@ -5,6 +5,9 @@ a wip inline-editor for nlp-based display and interactions in react
 
 The project renders a simple textarea that highlights the verbs in a sentence using the `compromise` NLP library.
 
+![NlpTextArea](demo/demo.png?raw=true "NlpTextArea")
+
+
 ## Prerequisites
 Install the following packages.  If they are not installed globally, you'll need to preface the references in `webpack.config.js` with `node_modules/.bin/`.
 ```
