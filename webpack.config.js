@@ -3,12 +3,13 @@ var Webpack = require('webpack')
 
 module.exports = {
   entry: './demo/main.jsx',
+  mode: 'development',
   module: {
-    loaders: [
+    rules: [
       {
         test: /.*\.jsx$/,
         loaders: [
-          'babel?cacheDirectory,presets[]=react,presets[]=es2015'
+          'babel-loader?cacheDirectory,presets[]=react,presets[]=es2015'
         ],
         exclude: /node_modules/
       }
@@ -21,7 +22,7 @@ module.exports = {
   plugins: [
     new Webpack.HotModuleReplacementPlugin(),
     // Avoid publishing files when compilation fails
-    new Webpack.NoErrorsPlugin()
+    new Webpack.NoEmitOnErrorsPlugin()
   ],
   stats: {
     // Nice colored output

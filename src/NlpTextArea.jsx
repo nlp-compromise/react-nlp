@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react'
+import nlp from 'compromise'
 
 class NlpTextArea extends React.Component {
   constructor(props) {
@@ -23,7 +24,7 @@ class NlpTextArea extends React.Component {
     this.state = {
       text: props.text,
       trailing: '',
-      parsed: nlp_compromise.text(props.text)
+      parsed: nlp(props.text)
     }
     this.overlay = this.overlay.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -35,7 +36,7 @@ class NlpTextArea extends React.Component {
     let el = this.refs.textarea
     if (el) {
       state.text = el.value
-      state.parsed = nlp_compromise.text(state.text)
+      state.parsed = nlp(state.text)
     }
     state.trailing = state.text.match(/\s+$/) || ''
     this.setState(state)
@@ -44,23 +45,28 @@ class NlpTextArea extends React.Component {
   overlay() {
     let {state, css} = this
     let spans = []
-    state.parsed.terms().forEach(function (t, i) {
-      let term_css = {
-        color: 'white',
-        position: 'relative',
-        top: 2,
-        left: 1
-      }
-      if (t.pos['Verb']) {
-        term_css.backgroundColor = 'steelblue'
-        term_css.opacity = 0.5
-        term_css.color = 'white'
-      } else {
-        // term_css.visibility = 'hidden';
-      }
-      spans.push(<span key={i} style={term_css}>{t.text}</span>)
-      spans.push(<span key={i + 'space'}>{' '}</span>)
-    })
+    if (state.parsed.list.length > 0) {
+      state.parsed.list[0].terms.forEach(function (t, i) {
+        let term_css = {
+          color: 'white',
+          position: 'relative',
+          top: 2,
+          left: 1
+        }
+
+        if (t.tags.Verb) {
+
+          term_css.backgroundColor = 'steelblue'
+          term_css.opacity = 0.5
+          term_css.color = 'white'
+        } else {
+          term_css.visibility = 'hidden';
+        }
+        spans.push(<span key={i} style={term_css}>{t.text}</span>)
+        spans.push(<span key={i + 'space'}>{' '}</span>)
+      })
+    }
+
     return (
       <div style={css.shared_text}>
         {spans}
@@ -69,20 +75,23 @@ class NlpTextArea extends React.Component {
   }
 
   hiddenText() {
-    let {state, css} = this
+    let {state, css, text} = this
     let input_css = {
       backgroundColor: 'transparent',
       textIndent: -3
     }
     input_css = Object.assign(css.shared_text, input_css)
     //build the text-string from parsed terms
-    let terms = state.parsed.terms()
-    let text = terms.reduce(function (str, t) {
-      str += t.text + ' '
-      return str
-    }, '').trim()
-    text += state.trailing
-    console.log(text)
+
+    if (state.parsed.list.length > 0) {
+      let terms = state.parsed.list[0].terms
+      text = terms.reduce(function (str, t) {
+        str += t.text + ' '
+        return str
+      }, '').trim()
+      text += state.trailing
+      // console.log(text)
+    }
     return <textarea
       style={input_css}
       ref='textarea'
