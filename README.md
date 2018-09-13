@@ -1,28 +1,9 @@
-# react-nlp
-a wip inline-editor for nlp-based display and interactions in react
+a **Work-in-Progress** grammatical WISYWIG text editor, using [draftjs](https://draftjs.org/)
 
-[demo](https://unpkg.com/NlpTextArea@latest/demo/index.html)
+![image](https://user-images.githubusercontent.com/399657/45503877-32135b80-b756-11e8-8f86-9b2be2f77b95.png)
 
-The project renders a simple textarea that highlights the verbs in a sentence using the `compromise` NLP library.
+see it with `npm run start`
 
-![NlpTextArea](demo/demo.png?raw=true "NlpTextArea")
+will publish once it's working better
 
-
-## Prerequisites
-Install the following packages.  If they are not installed globally, you'll need to preface the references in `webpack.config.js` with `node_modules/.bin/`.
-```
-npm install -g webpack webpack-cli webpack-dev-server
-```
-
-## Install the dependencies
-```
-npm install
-```
-
-## Run the project
-```
-npm start
-```
-
-It should be visible at [http://0.0.0.0:8080/demo/](http://0.0.0.0:8080/demo/)
-
+MIT
